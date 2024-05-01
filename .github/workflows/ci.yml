@@ -1,18 +1,13 @@
 name: continuous integration - reusable
 on: [workflow_call]
-#  workflow_call:
-#    inputs:
-#      config-path:
-#        required: true
-#        type: string
 jobs:
   CI_Steps:
     runs-on: ubuntu-latest
     steps:
       - name: code checkout
         uses: actions/checkout@v4
-      - run: echo ok
-        name: echo Build
+#      - run: echo ok
+#        name: echo Build
       - run: echo ok
         name: echo test
       - run: echo ok
