@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v4
+
       - name: Import vault Secrets
         id: vault-secrets
         uses: hashicorp/vault-action@v2
@@ -21,8 +22,8 @@ jobs:
           url: https://vault.janand.online:8200/
           token: ${{ secrets.vault_token }}
           secrets: |
-              common/data/common sonarqube_user | sonarqube_user ;
-              common/data/common sonarqube_password | sonarqube_password ;
+              common/data/common sonarqube_user | sonarqube_user;
+              common/data/common sonarqube_password | sonarqube_password;
 
 
       - run: echo ok
