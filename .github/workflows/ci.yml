@@ -50,3 +50,4 @@ jobs:
 
       - run: echo ok
         name: release software
+        if: ${{ github.ref == 'refs/tags/*' }}
