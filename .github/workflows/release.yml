@@ -5,6 +5,9 @@ on:
       project_name:
         required: true
         type: string
+      release_archive_file:
+        required: true
+        type: string
       npm_install:
         required: true
         type: boolean
@@ -18,10 +21,35 @@ jobs:
       - name: code checkout
         uses: actions/checkout@v4
 
-      - run: npm install
+      - run: echo npm install
         name: Install NodeJS modules
         if: ${{ inputs.npm_install }}
 
-      - run: echo ok
-        name: release software
+      - name: Import vault Secrets
+        id: vault-secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://vault.janand.online:8200/
+          token: ${{ secrets.vault_token }}
+          tlsSkipVerify: true
+          secrets: |
+            common/data/common artifactory_user | artifactory_user;
+            common/data/common artifactory_password | artifactory_password ;
+
+      - run: echo ${GITHUB_REF_NAME} >VERSION
+        name: create version file
+
+      - name: prepare artifact
+        uses: vimtor/action-zip@v1.2
+        with:
+          files: ${{ inputs.release_archive_file }}
+          dest: artifact.zip
+
+#      - run: zip -r ${GITHUB_REF_NAME}.zip ${{ inputs.release_archive_file }}
+#        name: prepare artifact
+
+      - run: ls -lh
+
+     # - run: curl -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @${GITHUB_REF_NAME}.zip -X PUT "http://artifactory-internal.janand.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
+        name: upload artifact
  #       if: ${{ startsWith(github.ref, 'refs/tags/') }}
