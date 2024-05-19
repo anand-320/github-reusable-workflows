@@ -1,4 +1,4 @@
-name: continuous integration - Reusable
+name: Continuous Integration - Reusable
 on:
   workflow_call:
     inputs:
