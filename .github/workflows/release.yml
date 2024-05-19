@@ -1,0 +1,27 @@
+name: Release - Reusable
+on:
+  workflow_call:
+    inputs:
+      project_name:
+        required: true
+        type: string
+      npm_install:
+        required: true
+        type: boolean
+    secrets:
+      vault_token:
+        required: true
+jobs:
+  CI_Steps:
+    runs-on: [self-hosted]
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - run: npm install
+        name: Install NodeJS modules
+        if: ${{ inputs.npm_install }}
+
+      - run: echo ok
+        name: release software
+ #       if: ${{ startsWith(github.ref, 'refs/tags/') }}
