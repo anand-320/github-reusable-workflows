@@ -56,4 +56,4 @@ jobs:
           ],
           "update_materials_before_scheduling": true
           }' | sed -e "s/app_version/${GITHUB_REF_NAME}/" | jq >data.json
-          curl 'http://172.31.1.180:8153/go/api/pipelines/${{ inputs.project_name }}/schedule' -H 'Accept: application/vnd.go.cd.v1+json' -H 'Content-Type: application/json' -X POST -d "@data.json"
+          curl 'http://172.31.25.3:8153/go/api/pipelines/${{ inputs.project_name }}/schedule' -H 'Accept: application/vnd.go.cd.v1+json' -H 'Content-Type: application/json' -X POST -d "@data.json"
